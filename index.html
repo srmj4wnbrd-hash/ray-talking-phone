@@ -2,11 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ray - Simple AI Phone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Ray">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><circle cx='90' cy='90' r='85' fill='%23FFD700'/><circle cx='70' cy='65' r='15' fill='white'/><circle cx='110' cy='65' r='15' fill='white'/><circle cx='70' cy='65' r='8' fill='%23333'/><circle cx='110' cy='65' r='8' fill='%23333'/></svg>">
+    <title>Ray - AI Talking Phone</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><circle cx='96' cy='96' r='85' fill='%23FFD700'/><circle cx='70' cy='70' r='15' fill='white'/><circle cx='122' cy='70' r='15' fill='white'/><circle cx='70' cy='70' r='8' fill='%23333'/><circle cx='122' cy='70' r='8' fill='%23333'/></svg>">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .install-prompt {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 255, 136, 0.9);
+            color: #000;
+            padding: 15px 20px;
+            border-radius: 10px;
+            z-index: 1000;
+            display: none;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            max-width: 90%;
+        }
+        .install-prompt.show {
+            display: flex;
+        }
+        .install-prompt button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            background: #667eea;
+            color: white;
+            transition: all 0.3s;
+        }
+        .install-prompt button:hover {
+            background: #5568d3;
+        }
+        .install-prompt .close-btn {
+            background: transparent;
+            color: #000;
+            font-size: 20px;
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
+    <div class="install-prompt" id="installPrompt">
+        <span>📱 Install Ray as an app!</span>
+        <button id="installBtn">Install</button>
+        <button class="close-btn" id="closeBtn">✕</button>
+    </div>
+
     <div class="container">
         <div class="phone">
             <div class="screen">
@@ -42,5 +97,45 @@
     </div>
 
     <script src="simple-script.js"></script>
+    <script>
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(registration => console.log('Service Worker registered'))
+                .catch(error => console.log('Service Worker registration failed:', error));
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        const installPrompt = document.getElementById('installPrompt');
+        const installBtn = document.getElementById('installBtn');
+        const closeBtn = document.getElementById('closeBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installPrompt.classList.add('show');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response: ${outcome}`);
+                deferredPrompt = null;
+                installPrompt.classList.remove('show');
+            }
+        });
+
+        closeBtn.addEventListener('click', () => {
+            installPrompt.classList.remove('show');
+        });
+
+        // Check if app is already installed
+        window.addEventListener('appinstalled', () => {
+            console.log('Ray PWA installed!');
+            installPrompt.classList.remove('show');
+        });
+    </script>
 </body>
 </html>
