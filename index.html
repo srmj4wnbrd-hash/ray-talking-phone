@@ -3,39 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ray - AI Talking Phone</title>
+    <title>Ray - Simple AI Phone</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <div class="phone">
             <div class="screen">
-                <div class="face-container">
-                    <!-- Ray's Face -->
-                    <div class="face">
-                        <div class="eye left-eye">
-                            <div class="pupil"></div>
-                        </div>
-                        <div class="eye right-eye">
-                            <div class="pupil"></div>
-                        </div>
-                        <div class="mouth" id="mouth"></div>
+                <!-- Ray's Face -->
+                <div class="face">
+                    <div class="eye left-eye">
+                        <div class="pupil"></div>
                     </div>
+                    <div class="eye right-eye">
+                        <div class="pupil"></div>
+                    </div>
+                    <div class="mouth" id="mouth"></div>
                 </div>
-                <div class="status" id="status">Listening for 'Ray'...</div>
+                
+                <div class="status" id="status">Say "Ray"...</div>
             </div>
+            
             <div class="buttons">
-                <button id="startBtn" class="btn btn-start">Start Listening</button>
-                <button id="stopBtn" class="btn btn-stop">Stop Listening</button>
+                <button id="startBtn" class="btn btn-start">🎤 Start</button>
+                <button id="stopBtn" class="btn btn-stop">⏹ Stop</button>
             </div>
         </div>
-        <div class="transcript">
-            <h3>Conversation:</h3>
-            <div id="transcript" class="transcript-box"></div>
+
+        <!-- Chat Display -->
+        <div class="chat">
+            <h3>💬 Chat</h3>
+            <div id="messages" class="messages"></div>
+            <div class="input-area">
+                <input type="text" id="textInput" placeholder="Or type here...">
+                <button id="sendBtn" class="send-btn">Send</button>
+            </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="script.js"></script>
+    <script src="simple-script.js"></script>
 </body>
 </html>
