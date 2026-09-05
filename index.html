@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ray - AI Talking Phone</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="phone">
+            <div class="screen">
+                <div class="face-container">
+                    <!-- Ray's Face -->
+                    <div class="face">
+                        <div class="eye left-eye">
+                            <div class="pupil"></div>
+                        </div>
+                        <div class="eye right-eye">
+                            <div class="pupil"></div>
+                        </div>
+                        <div class="mouth" id="mouth"></div>
+                    </div>
+                </div>
+                <div class="status" id="status">Listening for 'Ray'...</div>
+            </div>
+            <div class="buttons">
+                <button id="startBtn" class="btn btn-start">Start Listening</button>
+                <button id="stopBtn" class="btn btn-stop">Stop Listening</button>
+            </div>
+        </div>
+        <div class="transcript">
+            <h3>Conversation:</h3>
+            <div id="transcript" class="transcript-box"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
